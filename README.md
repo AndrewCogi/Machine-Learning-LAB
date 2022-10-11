@@ -143,3 +143,56 @@ main(){
 
 # LAB 2 Conclusion
 
+
+<b>Index
+1. Conclusion
+2. AutoML Description
+3. Team member contribution
+</b>
+
+## 1. Conclusion
+
+ As a result of checking the dataset as a whole, the null value was 207 null value in “total_bedrooms" feature. All records with null values were deleted because the ratio of null values was lower in comparison the entire dataset. The “median_house_value” feature was deleted because it is target feature. Encoding was performed because the "ocean_proximity" feature is a categorical values. We use two types of encoders: label encoder, ordinal encoder and five types of scalers: standard scaler, minmax scaler, robust scaler, maxabs scaler, normalizer. We use five types of model: KMeans, GMM, CLARANS, DBSCAN, Mean Shift.
+
+ IQR method was used to remove outliers from the original data. The percentages were 15 and 85, respectively, and about 1000 rows were dropped. However, it does not seem to show a significant performance difference, so we did not add it to the code.
+ 
+![iqr](https://user-images.githubusercontent.com/74485630/195056012-9a2415e4-a874-4eea-8f79-b117ee5b6f87.png)
+
+AutoML was run with all data and all parameters. The difference between encoder and scaler was very small. As a result of analyzing the entire data, it was found that clustering did not proceed well because there were a total of 9 features. In fact, as a result of visually checking through plotting, there was no model in which all feature-pairs were perfectly grouped.
+
+### DBSCAN
+ In DBSCAN, the values for eps, min_samples, and metric were changed. The parameter that showed the greatest influence was eps. When the range to be included in the cluster was set small, we could see a situation in which all data were identified as outliers. Also, if the eps is too high, most of the data is meaninglessly bundled. We also saw the change according to the number of min_samples at the same eps value. Good results were obtained when the number of min_samples was appropriate and eps was also at an appropriate value. When the eps value was between 1 and 1.5 and min-samples were between 100 and 200, it was judged that they were well bound. In addition, the distance method did not seem to have a significant difference visually.
+ 
+![dbscan](https://user-images.githubusercontent.com/74485630/195056932-e3ad2919-1770-47ae-93c8-fe8869efaa3b.png)
+
+### GMM
+ As a result of calculating the Silhouette score for GMM, the euclidean method and the manhattan method showed a similar flow. When modeling for GMM, if parameters are set incorrectly, most records are included in one cluster. Also, the average value for medianHouseValue was similar to a meaningless level. However, for good parameters(covariance_type=tied,init_params=random, n_components=2,3), it was possible to see the overall appearance of being divided into two categories, and 10,000 records were grouped in a cluster, and the medianHouseValue value was also more than 20,000, showing a clear difference. It was found out how much the parameter setting affects the clustering result. Except for different cases for each combination of columns, it seems that gmm was properly grouped in each cluster and had good performance when judging the overall model.
+ 
+![GMM](https://user-images.githubusercontent.com/74485630/195057000-8b9a5cf4-5079-48a4-8a8e-f98a9f21e9f7.png)
+
+### KMeans
+ In the case of KMeans, we saw a result that shows good results when n_cluster is 2,5 through the Silhouette score. In fact, as shown in the figure, the best result was shown at 5. Also, we tried calculating the silhouette score for the euclidean method and the manhattan method, respectively, and it showed a similar graph shape overall. (Clustering was carried out for the commonly used euclidean method) In particular, it was found that the higher the value of max_iter, the denser the clustering proceeded. We analyzed how many medianHouseValue, the existing target value, were grouped for the clustering result, how much are the maximum and minimum values, and how much is the average value. Even in the results that clustering results seem to be well bound, only about 10000 differences were seen with respect to the average value of medianHouseValue, and no significant differences were seen. I think this result appears because the number of features is too large, and the computer is mathematically dependent only on the data.
+ 
+![Kmeans](https://user-images.githubusercontent.com/74485630/195057054-7cf096a5-597b-4991-9ca4-7e332a1447f0.png)
+
+### CLARANS
+ For CLARANS, the number of clusters, numlocal, and maxneighbor parameters were entered and modeled. (numberlocal represents the number of local minima obtained and maxneighbor represents the maximum number of neighbors) It was not included in the sklearn, so it proceeded to the pyclustering module. The output result is a two-dimensional reduction of all features. Most clustering results usually showed good clustering results.
+ 
+### Mean Shift
+ Finally, modeling was conducted on Mean Shift, the subject of Active Learning. As a parameter, I set how generously to include in the cluster by changing the bandwidth value. Also, using estimate_bandwidth, we found the optimal bandwidth value. (The result was about 3) we saw that the smaller the bandwidth, the more clusters are created. Conversely, the larger the bandwidth, the fewer clusters were created. As for the results, most of the values were concentrated for cluster label=0, and in conclusion, clustering was not done properly.
+ 
+![meanshift](https://user-images.githubusercontent.com/74485630/195057107-3b942187-362c-4248-a7c5-96953a843c70.png)
+
+### Result
+ As a result of analyzing the clustering results for all models, a common shape was found, but most clustering was not good for longitude, latitude, medianIncome, and housingMedianAge. Therefore, considering these features as features that do not affect clustering, we excluded them and ran AutoML again.
+ For all data, it was possible to see the results of clustering more reliably than before, and it was also seen that the houseMedianValue also differed more for each cluster. Therefore, I found that it is important to think about and decide whether a feature will be helpful for clustering or not. Even if the dataset is good, invest a lot of time and analyze it to set the appropriate model and appropriate parameter to set the optimal value. I found it important and difficult to find.
+ 
+## 2. AutoML Description
+
+![automl](https://user-images.githubusercontent.com/74485630/195065782-6f1e9f8c-bc02-4b47-b0cc-92e8616296bc.png)
+
+## 3. Team member contribution
+
+All team members wrote their own code from start to finish, had a meeting time to modify and integrate the code, and analyze it together.
+
+![team](https://user-images.githubusercontent.com/74485630/195057294-e94a0c11-71d3-4190-afc1-7a450d9e4905.png)
