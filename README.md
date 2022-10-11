@@ -143,3 +143,16 @@ main(){
 
 # LAB 2 Conclusion
 
+<b>Index
+1. Conclusion
+2. AutoML Description
+3. Team member contribution
+</b>
+
+## 1. Conclusion
+
+ As a result of checking the dataset as a whole, the null value was 207 null value in “total_bedrooms" feature. All records with null values were deleted because the ratio of null values was lower in comparison the entire dataset. The “median_house_value” feature was deleted because it is target feature. Encoding was performed because the "ocean_proximity" feature is a categorical values. We use two types of encoders: label encoder, ordinal encoder and five types of scalers: standard scaler, minmax scaler, robust scaler, maxabs scaler, normalizer. We use five types of model: KMeans, GMM, CLARANS, DBSCAN, Mean Shift.
+
+ IQR method was used to remove outliers from the original data. The percentages were 15 and 85, respectively, and about 1000 rows were dropped. However, it does not seem to show a significant performance difference, so we did not add it to the code.
+
+![iqr](https://user-images.githubusercontent.com/74485630/195056012-9a2415e4-a874-4eea-8f79-b117ee5b6f87.png)
